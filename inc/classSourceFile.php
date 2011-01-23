@@ -88,6 +88,11 @@
 			return $this;
 		}
 		
+		public function get_lang()
+		{
+			return $this->_lang;
+		}
+		
 		public function set_untranslated($bool)
 		{
 			$this->_untranslated = $bool;
@@ -97,16 +102,6 @@
 		public function is_untranslated()
 		{
 			return $this->_untranslated;
-		}
-		
-		public function pagelink($mode, $text = '')
-		{
-			if ( ! $text ) $text = $mode;
-			$qs[] = $mode . '=' . $this->_name;
-			if ( $this->_lang !== DEFAULT_LANG )
-				$qs[] = 'lang=' . $this->_lang;
-			$qs = '?' . implode('&amp;', $qs);
-			return '<a href="./' . script_name() . $qs . '">' . $text . '</a>';
 		}
 		
 		private function _parse($source = '')
