@@ -8,14 +8,14 @@
 		private $_name;
 		private $_source;
 		private $_html;
-		private $_textile;
+		private $_parser;
 		private $_lang;
 		private $_untranslated = false;
 		
-		public function __construct($name, $file_path, $textile, $lang)
+		public function __construct($name, $file_path, $parser, $lang)
 		{
 			$this->_name = $name;
-			$this->_textile = $textile;
+			$this->_parser = $parser;
 			$this->_lang = $lang;
 			if ( file_exists($file_path) )
 			{
@@ -77,7 +77,7 @@
 		{
 			if ( ! $this->_html )
 			{
-				$this->_html = $this->_textile->textileThis($this->_source);
+				$this->_html = $this->_parse();
 			}
 			return $this->_html;
 		}
@@ -107,6 +107,14 @@
 				$qs[] = 'lang=' . $this->_lang;
 			$qs = '?' . implode('&amp;', $qs);
 			return '<a href="./' . script_name() . $qs . '">' . $text . '</a>';
+		}
+		
+		private function _parse($source = '')
+		{
+			if ( ! $source )
+				$source = $this->_source;
+			if ( get_class($this->_parser) === 'Textile' )
+				return $this->_parser->TextileThis($source);
 		}
 		
 	}

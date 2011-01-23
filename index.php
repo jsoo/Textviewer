@@ -10,14 +10,14 @@
 		return preg_match('/^[a-z]{2,2}-[a-z]{2,2}$/', $lang);
 	}
 	
-	function get_source_files($lang, $textile)
+	function get_source_files($lang, $parser)
 	{
 		$out = array();
 		if ( is_dir($lang) )
 		{
 			foreach ( scandir($lang) as $file )
 				if ( preg_match('/^(.+)\.' . SOURCE_FILE_EXT . '$/', $file, $match) )
-					$out[$match{1}] = new SourceFile($match[1], $lang . DIRECTORY_SEPARATOR . $file, $textile, $lang);
+					$out[$match{1}] = new SourceFile($match[1], $lang . DIRECTORY_SEPARATOR . $file, $parser, $lang);
 		}
 		return $out;
 	}
@@ -38,15 +38,25 @@
 		return ( 'index.php' === $script ) ? '' : $script;
 	}
 		
-	define('DOCS_DIR', dirname(__FILE__));
 	define('SOURCE_FILE_EXT', 'textile');
-	set_include_path(get_include_path() . PATH_SEPARATOR . 
-		DOCS_DIR . DIRECTORY_SEPARATOR . 'inc' . PATH_SEPARATOR . 
-		dirname(DOCS_DIR));
+	define('TEXTVIEWER_DIR', dirname(__FILE__));
+	define('INCLUDE_DIR', TEXTVIEWER_DIR . DIRECTORY_SEPARATOR . 'inc');
+	$parser_dirs = array(
+		'textile',
+	);
+	$include_paths = array(
+		get_include_path(),
+		TEXTVIEWER_DIR,
+		INCLUDE_DIR,
+	);
+	foreach ( $parser_dirs as $dir )
+		$include_paths[] = INCLUDE_DIR . DIRECTORY_SEPARATOR . $dir;
+	
+	set_include_path(implode(PATH_SEPARATOR, $include_paths));
 	
 	define('DEFAULT_LANG', 'en-gb');
 	$langs = array();
-	foreach ( scandir(DOCS_DIR) as $file )
+	foreach ( scandir(TEXTVIEWER_DIR) as $file )
 		if ( is_dir($file) && is_lang($file) )
 			$langs[] = $file;
 	if ( isset($_GET['lang']) && is_lang($_GET['lang']) )
@@ -57,7 +67,12 @@
 	$display_modes = array('web', 'html', 'source');
 	define('DEFAULT_DISPLAY_MODE', current($display_modes));
 	
-	$textile = new Textile;
+	switch ( SOURCE_FILE_EXT )
+	{
+		case 'textile':
+			$parser = new Textile;
+	}
+	
 	$files = array();
 	$message_files = array('translate', 'tagline');
 	
@@ -65,14 +80,14 @@
 	{
 		foreach ( scandir(LANG) as $file )
 			if ( preg_match('/^(.+)\.' . SOURCE_FILE_EXT . '$/', $file, $match) )
-				$files[end($match)] = new SourceFile(end($match), LANG . DIRECTORY_SEPARATOR . $file, $textile, LANG);
+				$files[end($match)] = new SourceFile(end($match), LANG . DIRECTORY_SEPARATOR . $file, $parser, LANG);
 	}
 	
-	$files = get_source_files(LANG, $textile);
+	$files = get_source_files(LANG, $parser);
 		
 	if ( LANG !== DEFAULT_LANG )
 	{
-		$default_files = get_source_files(DEFAULT_LANG, $textile);
+		$default_files = get_source_files(DEFAULT_LANG, $parser);
 		foreach ( $default_files as $name => $file )
 		{
 			if ( empty($files[$name]) )
@@ -115,8 +130,17 @@
 		$display_mode = reset($display_modes);
 		$display_page = current(array_keys($files));
 	}
-	$source_file = $files[$display_page];
-	$page_title = ': ' . $source_file->page_title;
+	
+	if ( $files )
+	{
+		$source_file = $files[$display_page];
+		$page_title = ': ' . $source_file->page_title;
+	}
+	else
+	{
+		$source_file = new SourceFile('', '', $parser, LANG);
+		$page_title = '';
+	}
 	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -127,7 +151,7 @@
 <link rel="stylesheet" type="text/css" href="./textile.css" />
 </head>
 <body>
-<?php echo $tagline->web; ?>
+<?php echo empty($tagline) ? '' : $tagline->web; ?>
 <div id="menu">
 <?php
 	if ( $files )
