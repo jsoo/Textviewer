@@ -2,14 +2,18 @@
 
 class TextViewer
 {
-	protected $langs = array();
-	protected $lang;
+	// from config
 	protected $default_lang;
 	protected $source_language;
+	protected $textviewer_root;
+	protected $source_dir;
+	protected $snippets = array();
+	
+	protected $langs = array();
 	protected $source_files = array();
-	protected $textviewer_dir;
+	protected $lang;
+	protected $source_file;
 	protected $display_modes = array('web', 'html', 'source');
-	protected $message_files = array('translate', 'tagline');
 	protected $default_display_page;
 	protected $default_display_mode;
 	protected $page_title;
@@ -22,14 +26,17 @@ class TextViewer
 	{
 		$this->default_lang = $config['default_lang'];
 		$this->source_language = $config['source_language'];
-		$this->textviewer_dir = $config['textviewer_dir'];
+		$this->textviewer_root = $config['textviewer_root'];
+		$this->source_dir = $config['source_dir'];
+		$this->snippets = $config['snippets'];
+		
 		$this->default_display_mode = current($this->display_modes);
 		$this->parser = new $this->source_language;
 		$this->script_filename = basename($_SERVER['SCRIPT_FILENAME']);
 		if ( $this->script_filename === 'index.php' )
 			$this->script_filename = '';
 		
-		foreach ( scandir($this->textviewer_dir) as $file )
+		foreach ( scandir($this->source_dir) as $file )
 			if ( is_dir($file) && self::is_lang($file) )
 				$this->langs[] = $file;
 		if ( isset($_GET['lang']) && self::is_lang($_GET['lang']) )
@@ -37,6 +44,7 @@ class TextViewer
 		else
 			$this->lang = $this->default_lang;
 		$this->source_files = $this->_get_source_files($this->lang);
+
 		if ( $this->lang !== $this->default_lang )
 		{
 			$default_files = $this->_get_source_files($this->default_lang);
@@ -56,11 +64,11 @@ class TextViewer
 			array_multisort($sort, $this->source_files);
 		}
 		
-		foreach ( $this->message_files as $message_file )
-			if ( isset($this->source_files[$message_file]) )
+		foreach ( $this->snippets as $snippet )
+			if ( isset($this->source_files[$snippet]) )
 			{
-				$this->$message_file = $this->source_files[$message_file];
-				unset($this->source_files[$message_file]);
+				$this->$snippet = $this->source_files[$snippet];
+				unset($this->source_files[$snippet]);
 			}
 
 		$this->default_display_page = current(array_keys($this->source_files));
@@ -102,9 +110,10 @@ class TextViewer
 	
 	private function _get_source_files($lang)
 	{
-		if ( is_dir($lang) ) 
+		$dir = $this->source_dir . DIRECTORY_SEPARATOR . $lang;
+		if ( is_dir($dir) ) 
 		{
-			foreach ( scandir($lang) as $file )
+			foreach ( scandir($dir) as $file )
 				if ( preg_match('/^(.+)\.' . $this->source_language . '$/', $file, $match) )
 					$files[end($match)] = new SourceFile(end($match), $lang . DIRECTORY_SEPARATOR . $file, $this->parser, $lang);
 		}

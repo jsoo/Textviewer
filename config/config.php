@@ -9,6 +9,7 @@ $config = array(
 	*/
 	'source_language' => 'textile',
 
+
 	/* 
 	Default viewing language
 	Must match name of directory holding source files for this language
@@ -17,19 +18,30 @@ $config = array(
 	'default_lang' => 'en-gb',
 
 
+	/* 
+	Parent directory for source files, relative to textviewer root
+	i.e., where 'en-gb' and other lang directories live
+	*/
+	'source_dir' => '',
+	
+	
+	/*
+	List any common page elements here -- header & footer, tagline, messages ...
+	TextViewer will scan the source directory for files with this name
+	*/
+	'snippets' => array(
+
+// 		'header',
+		'tagline',		// slogan to appear as a header
+		'translate',	// message to show on untranslated files
+// 		'footer',
+
+	),
 );
 
 /* 
 You won't need to change these unless you are moving files around
 */
-$config['textviewer_dir'] = dirname(dirname(__FILE__));
-$config['include_dir'] = $config['textviewer_dir'] . DIRECTORY_SEPARATOR . 'inc';
+$config['textviewer_root'] = dirname(dirname(__FILE__));
+$config['include_dir'] = $config['textviewer_root'] . DIRECTORY_SEPARATOR . 'inc';
 
-
-$include_paths = array(
-	get_include_path(),
-	$config['textviewer_dir'],
-	$config['include_dir'],
-	$config['include_dir'] . DIRECTORY_SEPARATOR . $config['source_language'],
-);
-set_include_path(implode(PATH_SEPARATOR, $include_paths));
