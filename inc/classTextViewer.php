@@ -99,11 +99,11 @@ class TextViewer
 		if ( $this->source_files )
 		{
 			$this->source_file = $this->source_files[$this->display_page];
-			$this->page_title = ': ' . $this->source_file->page_title;
+			$this->page_title = $this->source_file->page_title;
 		}
 		else
 		{
-			$this->source_file = new SourceFile('', '', $this->parser, $this->lang);
+//			$this->source_file = new SourceFile('', '', $this->parser, $this->lang);
 			$this->page_title = '';
 		}
 	}

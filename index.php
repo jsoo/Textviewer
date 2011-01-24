@@ -1,16 +1,35 @@
 <?php
 include('config/config.php');
 include($config['include_dir'] . DIRECTORY_SEPARATOR . 'bootstrap.php');
+
+/*
+	This is the template TextViewer uses to display your files.
+	Leave the code above as it is. Do whatever you like with the
+	template below. Note the use of the global $tv object to get 
+	content. 
+	
+	The template includes a language switcher. It is only displayed
+	if multiple language directories are found.
+*/
+
+$page_title = $tv->page_title;
+if ( $tv->display_mode != 'web' )
+	$page_title .= ' (' . $tv->display_mode . ')';
+
+$translate_message = '';
+if ( $tv->source_file and $tv->source_file->is_untranslated() )
+	$translate_message = $tv->translate->web;
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Textile<?php echo $tv->page_title, ' (', $tv->display_mode, ')'; ?></title>
+<title>TextViewer: <?php echo $page_title; ?></title>
 <link rel="stylesheet" type="text/css" href="./textile.css" />
 </head>
 <body>
-<?php echo $tv->tagline->web; ?>
+<?php echo $tv->tagline ? $tv->tagline->web : ''; ?>
 <div id="menu">
 <?php if ( $tv->source_files ) : ?>
 <dl id="file-menu">
@@ -45,12 +64,9 @@ if ( count($tv->langs) > 1 ) : ?>
 </div></form>
 <?php endif; ?>
 </div>
-<?php
-if ( $tv->source_file->is_untranslated() )
-	echo $tv->translate->web;
-?>
+<?php echo $translate_message; ?>
 <div id="<?php echo $tv->display_mode; ?>">
-<?php switch ( $tv->display_mode ) :
+<?php if ( $tv->source_file ) : switch ( $tv->display_mode ) :
 	case 'web':
 		echo $tv->source_file->web;
 		break;
@@ -59,7 +75,8 @@ if ( $tv->source_file->is_untranslated() )
 		break;
 	case 'source':
 		echo "<pre>\n", htmlspecialchars($tv->source_file->source), "</pre>\n";
-endswitch; ?>
+endswitch; endif; ?>
+<?php echo $tv->footer ? $tv->footer->web : ''; ?>
 </div>
 </body>
 </html>

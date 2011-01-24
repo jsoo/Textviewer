@@ -15,7 +15,7 @@ $config = array(
 	Must match name of directory holding source files for this language
 	Must be in an ISO language code format, e.g. 'en' or 'en-gb'
 	*/
-	'default_lang' => 'en-gb',
+	'default_lang' => 'en',
 
 
 	/* 
@@ -27,14 +27,15 @@ $config = array(
 	
 	/*
 	List any common page elements here -- header & footer, tagline, messages ...
-	TextViewer will scan each source directory for files with these names
+	TextViewer will scan each source directory for files with these names,
+	and separate them from the main source files
 	*/
 	'snippets' => array(
 
 // 		'header',
 		'tagline',		// slogan to appear as a header
 		'translate',	// message to show on untranslated files
-// 		'footer',
+ 		'footer',		// page footer
 
 	),
 );

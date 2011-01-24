@@ -34,6 +34,10 @@ class SourceFile
 				}
 			}
 		}
+		if ( ! $this->page_title )
+			$this->page_title = $this->name;
+		if ( ! $this->sort_order )
+			$this->sort_order = $this->name;
 	}
 	
 	public function __get($property)
