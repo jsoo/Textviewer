@@ -2,7 +2,11 @@
 
 function __autoload($class)
 {
-	include 'class' . $class . '.php';
+	switch ( $class )
+	{
+		default:
+			include 'class' . ucfirst($class) . '.php';
+	}
 }
 
 $include_paths = array(
