@@ -23,6 +23,6 @@ else
 
 set_include_path(implode(PATH_SEPARATOR, $include_paths));
 
-$tv = new TextViewer($config);
+$tv = new TvController($config);
 
 unset($config);
