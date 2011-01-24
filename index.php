@@ -1,222 +1,65 @@
 <?php
-	
-	function __autoload($class)
-	{
-		include 'class' . $class . '.php';
-	}
-
-	function is_lang($lang)
-	{
-		return preg_match('/^[a-z]{2,2}-[a-z]{2,2}$/', $lang);
-	}
-	
-	function get_source_files($lang, $parser)
-	{
-		$out = array();
-		if ( is_dir($lang) )
-		{
-			foreach ( scandir($lang) as $file )
-				if ( preg_match('/^(.+)\.' . SOURCE_FILE_EXT . '$/', $file, $match) )
-					$out[$match{1}] = new SourceFile($match[1], $lang . DIRECTORY_SEPARATOR . $file, $parser, $lang);
-		}
-		return $out;
-	}
-	
-	function sort_source_files(&$files)
-	{
-		if ( $files ) 
-		{
-			foreach ( $files as $file )
-				$sort[$file->name] = $file->sort_order;
-			array_multisort($sort, $files);
-		}
-	}
-	
-	function script_name()
-	{
-		$script = basename($_SERVER['SCRIPT_FILENAME']);
-		return ( 'index.php' === $script ) ? '' : $script;
-	}
-		
-	define('SOURCE_FILE_EXT', 'textile');
-	define('TEXTVIEWER_DIR', dirname(__FILE__));
-	define('INCLUDE_DIR', TEXTVIEWER_DIR . DIRECTORY_SEPARATOR . 'inc');
-	$parser_dirs = array(
-		'textile',
-	);
-	$include_paths = array(
-		get_include_path(),
-		TEXTVIEWER_DIR,
-		INCLUDE_DIR,
-	);
-	foreach ( $parser_dirs as $dir )
-		$include_paths[] = INCLUDE_DIR . DIRECTORY_SEPARATOR . $dir;
-	
-	set_include_path(implode(PATH_SEPARATOR, $include_paths));
-	
-	define('DEFAULT_LANG', 'en-gb');
-	$langs = array();
-	foreach ( scandir(TEXTVIEWER_DIR) as $file )
-		if ( is_dir($file) && is_lang($file) )
-			$langs[] = $file;
-	if ( isset($_GET['lang']) && is_lang($_GET['lang']) )
-		define('LANG', $_GET['lang']);
-	else
-		define('LANG', DEFAULT_LANG);
-	
-	$display_modes = array('web', 'html', 'source');
-	define('DEFAULT_DISPLAY_MODE', current($display_modes));
-	
-	switch ( SOURCE_FILE_EXT )
-	{
-		case 'textile':
-			$parser = new Textile;
-	}
-	
-	$files = array();
-	$message_files = array('translate', 'tagline');
-	
-	if ( is_dir(LANG) ) 
-	{
-		foreach ( scandir(LANG) as $file )
-			if ( preg_match('/^(.+)\.' . SOURCE_FILE_EXT . '$/', $file, $match) )
-				$files[end($match)] = new SourceFile(end($match), LANG . DIRECTORY_SEPARATOR . $file, $parser, LANG);
-	}
-	
-	$files = get_source_files(LANG, $parser);
-		
-	if ( LANG !== DEFAULT_LANG )
-	{
-		$default_files = get_source_files(DEFAULT_LANG, $parser);
-		foreach ( $default_files as $name => $file )
-		{
-			if ( empty($files[$name]) )
-			{
-				$file->set_lang(LANG)->set_untranslated(true);
-				$files[$name] = $file;
-			}
-		}
-	}
-	
-	sort_source_files($files);
-	foreach ( $message_files as $message_file )
-		if ( isset($files[$message_file]) )
-		{
-			$$message_file = $files[$message_file];
-			unset($files[$message_file]);
-		}
-	define('DEFAULT_DISPLAY_PAGE', current(array_keys($files)));
-	
-	foreach ( $display_modes as $mode )
-	{
-		if ( isset($_GET[$mode]) )
-		{
-			if ( array_key_exists($_GET[$mode], $files) )
-			{
-				$display_mode = $mode;
-				$display_page = $_GET[$mode];
-				break;
-			}
-			else
-			{
-				$display_mode = DEFAULT_DISPLAY_MODE;
-				$display_page = DEFAULT_DISPLAY_PAGE;
-			}
-		}
-	}
-	
-	if ( empty($display_mode) )
-	{
-		$display_mode = reset($display_modes);
-		$display_page = current(array_keys($files));
-	}
-	
-	if ( $files )
-	{
-		$source_file = $files[$display_page];
-		$page_title = ': ' . $source_file->page_title;
-	}
-	else
-	{
-		$source_file = new SourceFile('', '', $parser, LANG);
-		$page_title = '';
-	}
-	
+include('config/config.php');
+include($config['include_dir'] . DIRECTORY_SEPARATOR . 'bootstrap.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Textile<?php echo $page_title, " ($display_mode)"; ?></title>
+<title>Textile<?php echo $tv->page_title, ' (', $tv->display_mode, ')'; ?></title>
 <link rel="stylesheet" type="text/css" href="./textile.css" />
 </head>
 <body>
-<?php echo empty($tagline) ? '' : $tagline->web; ?>
+<?php echo $tv->tagline->web; ?>
 <div id="menu">
-<?php
-	if ( $files )
-	{
-		echo '<dl id="file-menu">';
-		foreach ( $files as $filename => $file )
-			if ( $display_page === $file->name )
-			{
-				echo '<dt class="here">', $file->page_title, '</dt>';
-				foreach ( $display_modes as $mode )
-					if ( $mode === $display_mode && $display_page === $file->name )
-						echo '<dd class="here">', $mode, '</dd>';
-					else
-						echo '<dd>', $file->pagelink($mode), '</dd>';
-			}
-			else
-			{
-				$class = $file->is_untranslated() ? ' class="untranslated"' : '';
-				echo "<dt{$class}>", $file->pagelink('web', $file->page_title), '</dt>';
-			}
-		echo '</dl>';
-	}
-	if ( count($langs) > 1 )
-	{
-?>
-<form name="select_lang" action="./<?php echo script_name(); ?>" method="get">
-<div>
-<input type="hidden" name="<?php echo $display_mode; ?>" value="<?php echo $display_page; ?>" />
+<?php if ( $tv->source_files ) : ?>
+<dl id="file-menu">
+<?php foreach ( $tv->source_files as $filename => $file ) :
+		if ( $tv->display_page === $file->name ) :
+			echo '<dt class="here">', $file->page_title, '</dt>';
+			foreach ( $tv->display_modes as $mode ) :
+				if ( $mode === $tv->display_mode && $tv->display_page === $file->name ) :
+					echo '<dd class="here">', $mode, '</dd>';
+				else :
+					echo '<dd>', $tv->pagelink($file->name, $mode), '</dd>';
+				endif;
+			endforeach;
+		else :
+			$class = $file->is_untranslated() ? ' class="untranslated"' : '';
+			echo "<dt{$class}>", $tv->pagelink($file->name, 'web', $file->page_title), '</dt>';
+		endif;
+	endforeach; ?>
+</dl>
+<?php endif;
+if ( count($tv->langs) > 1 ) : ?>
+<form name="select_lang" action="./<?php echo $tv->script_filename; ?>" method="get"><div>
+<input type="hidden" name="<?php echo $tv->display_mode; ?>" value="<?php echo $tv->display_page; ?>" />
 <select name="lang" onchange="select_lang.submit()">
 <?php
-		
-		foreach ( $langs as $lang )
-		{
-			$selected = $lang === LANG ? ' selected="selected"' : '';
-			echo "<option{$selected}>{$lang}</option>\n";
-		}
+	foreach ( $tv->langs as $lang ) :
+		$selected = $lang === $tv->lang ? ' selected="selected"' : '';
+		echo "<option{$selected}>{$lang}</option>\n";
+	endforeach;
 ?>
 </select>
-</div>
-</form>
-<?php
-	}
-?>
+</div></form>
+<?php endif; ?>
 </div>
 <?php
-	if ( $source_file->is_untranslated() )
-	{
-		echo $translate->web;
-	}
+if ( $tv->source_file->is_untranslated() )
+	echo $tv->translate->web;
 ?>
-<div id="<?php echo $display_mode; ?>">
-<?php
-	switch ( $display_mode )
-	{
-		case 'web':
-			echo $source_file->web;
-			break;
-		case 'html':
-			echo "<pre><code>\n", $source_file->html, "</code></pre>\n";
-			break;
-		case 'source':
-			echo "<pre>\n", htmlspecialchars($source_file->source), "</pre>\n";
-	}
-
-?>
+<div id="<?php echo $tv->display_mode; ?>">
+<?php switch ( $tv->display_mode ) :
+	case 'web':
+		echo $tv->source_file->web;
+		break;
+	case 'html':
+		echo "<pre><code>\n", $tv->source_file->html, "</code></pre>\n";
+		break;
+	case 'source':
+		echo "<pre>\n", htmlspecialchars($tv->source_file->source), "</pre>\n";
+endswitch; ?>
 </div>
 </body>
 </html>
