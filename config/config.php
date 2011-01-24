@@ -27,7 +27,7 @@ $config = array(
 	
 	/*
 	List any common page elements here -- header & footer, tagline, messages ...
-	TextViewer will scan the source directory for files with this name
+	TextViewer will scan each source directory for files with these names
 	*/
 	'snippets' => array(
 
