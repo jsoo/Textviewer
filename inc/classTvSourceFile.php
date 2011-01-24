@@ -112,8 +112,7 @@ class TvSourceFile
 	{
 		if ( ! $source )
 			$source = $this->_source;
-		if ( get_class($this->_parser) === 'Textile' )
-			return $this->_parser->TextileThis($source);
+		return $this->_parser->parse($source);
 	}
 	
 }

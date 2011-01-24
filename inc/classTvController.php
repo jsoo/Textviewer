@@ -31,7 +31,7 @@ class TvController
 		$this->snippets = $config['snippets'];
 		
 		$this->default_display_mode = current($this->display_modes);
-		$this->parsers[$this->source_language] = new $this->source_language;
+		$this->parsers[$this->source_language] = new TvParser($this->source_language);
 		$this->script_filename = basename($_SERVER['SCRIPT_FILENAME']);
 		if ( $this->script_filename === 'index.php' )
 			$this->script_filename = '';
