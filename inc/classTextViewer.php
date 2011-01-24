@@ -19,7 +19,7 @@ class TextViewer
 	protected $page_title;
 	protected $tagline;
 	protected $translate;
-	protected $parser;
+	protected $parsers = array();
 	protected $script_filename;
 	
 	public function __construct($config)
@@ -31,7 +31,7 @@ class TextViewer
 		$this->snippets = $config['snippets'];
 		
 		$this->default_display_mode = current($this->display_modes);
-		$this->parser = new $this->source_language;
+		$this->parsers[$this->source_language] = new $this->source_language;
 		$this->script_filename = basename($_SERVER['SCRIPT_FILENAME']);
 		if ( $this->script_filename === 'index.php' )
 			$this->script_filename = '';
@@ -115,7 +115,7 @@ class TextViewer
 		{
 			foreach ( scandir($dir) as $file )
 				if ( preg_match('/^(.+)\.' . $this->source_language . '$/', $file, $match) )
-					$files[end($match)] = new SourceFile(end($match), $lang . DIRECTORY_SEPARATOR . $file, $this->parser, $lang);
+					$files[end($match)] = new SourceFile(end($match), $lang . DIRECTORY_SEPARATOR . $file, $this->parsers[$this->source_language], $lang);
 		}
 		return empty($files) ? array() : $files;
 	}
