@@ -1,0 +1,33 @@
+h1. TextViewer
+
+h2. Overview
+
+TextViewer is a simple web viewer for text files.
+
+h2. Requirements
+
+* A PHP5-capable web server
+* Text files in a simplified markup format
+
+(Currently "Textile":http:textileit.com/ is the only supported format, but this will change soon.)
+
+h2. Features
+
+* Simple to install, configure, and use
+* Multi-language support
+
+h2. Installation
+
+Put the TextViewer files on a web server. 
+
+h2. Usage
+
+See the example files in /en for details.
+
+h2. Notes
+
+TextViewer is currently at version 0.1.0 and has not been extensively tested. 
+
+h2. License
+
+See LICENSE.textile, included in the distribution.
