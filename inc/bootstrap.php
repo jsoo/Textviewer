@@ -2,6 +2,8 @@
 
 function __autoload($class)
 {
+	if ( $class === 'Markdown_Parser' )
+		$class = 'markdown';
 	$include_path = get_include_path();
 	foreach ( explode(PATH_SEPARATOR, $include_path) as $path )
 	{
@@ -13,6 +15,9 @@ function __autoload($class)
 	}
 	switch ( $class )
 	{
+		case 'markdown':
+			include 'markdown.php';
+			break;
 		default:
 			include 'class' . ucfirst($class) . '.php';
 	}

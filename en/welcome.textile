@@ -4,13 +4,19 @@ sort_order => 10
 
 h1. Welcome to TextViewer
 
-TextViewer is a simple web viewer for text files. To install it, you upload the files to a web server. To use it, you write documents in a simplified markup language such as "Textile":http://textileit.com/, and drop them in a folder on the web server. That's it -- you now have a website.
+TextViewer is a simple web viewer for text files. To install it, upload it to a 
+ web server. To use it, write documents in a simplified markup language such as 
+ "Textile":http://textileit.com/ or 
+ "Markdown":http://daringfireball.net/projects/markdown/, and drop them in 
+ TextViewer. That's it -- you now have a website.
 
-Your TextViewer website includes a simple navigation menu, automatically updated
- when you add or remove a document. If you translate one or more documents into
- another language, TextViewer automatically adds a language switcher. For 
- documents you haven't translated yet, TextViewer will display the version in 
- the default language.
+The template included with TextViewer gives your site a simple navigation menu, 
+ automatically updated when you add or remove a document. Modify the template
+ however you wish.
+ 
+If you translate one or more documents into another language, TextViewer 
+ automatically adds a language switcher. For documents you haven't translated 
+ yet, TextViewer will display the version in the default language.
 
 The source file for this page is an ordinary Textile 2.2 file. If you're viewing 
  this in TextViewer, you can see what the source looks like by clicking the 
@@ -21,8 +27,8 @@ The only TextViewer-specific part of the file is the Textile comment block at
  Currently TextViewer understands two items:
  
 ; page_title
-: Value for @$tv->page_title@. Useful for @<title>@, in a menu, etc.
+: The basic template uses this in the window-bar title and in the menu
 ; sort_order
-: How @$tv->source_files@ is sorted: useful for sorting pages in a menu
+: Set the order of pages in the menu
 
 Otherwise TextViewer uses the file name for both the title and sort value.

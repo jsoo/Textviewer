@@ -12,6 +12,11 @@ class TvParser
 			case 'textile':
 				$this->lang = $lang;
 				$this->parser = new Textile;
+				break;
+			case 'markdown':
+				$this->lang = $lang;
+				$this->parser = new Markdown_Parser;
+				break;
 		}
 	}
 	
@@ -32,6 +37,10 @@ class TvParser
 		{
 			case 'textile':
 				return $this->parser->TextileThis($source);
+				break;
+			case 'markdown':
+				return $this->parser->transform($source);
+				break;
 		}
 	}
 	
