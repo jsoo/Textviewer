@@ -16,8 +16,6 @@ class TvController
 	protected $default_display_page;
 	protected $default_display_mode;
 	protected $page_title;
-	protected $tagline;
-	protected $translate;
 	protected $parsers = array();
 	protected $script_filename;
 	
@@ -97,11 +95,6 @@ class TvController
 		{
 			$this->source_file = $this->source_files[$this->display_page];
 			$this->page_title = $this->source_file->page_title;
-		}
-		else
-		{
-//			$this->source_file = new SourceFile('', '', $this->parser, $this->lang);
-			$this->page_title = '';
 		}
 	}
 	

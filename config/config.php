@@ -12,7 +12,7 @@ $config = array(
 
 	/* 
 	Parent directory for source files, relative to textviewer root
-	i.e., where 'en-gb' and other lang directories live
+	i.e., where 'en' and other source file directories live
 	*/
 	'source_dir' => '',
 	

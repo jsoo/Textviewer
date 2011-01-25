@@ -31,6 +31,8 @@ else
 
 set_include_path(implode(PATH_SEPARATOR, $include_paths));
 
+unset($include_paths);
+
 $tv = new TvController($config);
 
 unset($config);
