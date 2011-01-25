@@ -4,6 +4,14 @@ sort_order => 10
 
 h1. Welcome to TextViewer
 
+TextViewer is a simple web viewer for text files. To install it, you upload the files to a web server. To use it, you write documents in a simplified markup language such as "Textile":http://textileit.com/, and drop them in a folder on the web server. That's it -- you now have a website.
+
+Your TextViewer website includes a simple navigation menu, automatically updated
+ when you add or remove a document. If you translate one or more documents into
+ another language, TextViewer automatically adds a language switcher. For 
+ documents you haven't translated yet, TextViewer will display the version in 
+ the default language.
+
 The source file for this page is an ordinary Textile 2.2 file. If you're viewing 
  this in TextViewer, you can see what the source looks like by clicking the 
  "source" link in the menu bar.

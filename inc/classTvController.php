@@ -11,11 +11,8 @@ class TvController
 	protected $langs = array();
 	protected $source_files = array();
 	protected $lang;
-	protected $source_file;
 	protected $display_modes = array('web', 'html', 'source');
-	protected $default_display_page;
-	protected $default_display_mode;
-	protected $page_title;
+	protected $display_mode;
 	protected $parsers = array();
 	protected $script_filename;
 	
@@ -26,7 +23,6 @@ class TvController
 		$this->source_dir = $config['source_dir'];
 		$this->snippets = $config['snippets'];
 		
-		$this->default_display_mode = current($this->display_modes);
 		$this->script_filename = basename($_SERVER['SCRIPT_FILENAME']);
 		if ( $this->script_filename === 'index.php' )
 			$this->script_filename = '';
@@ -66,7 +62,6 @@ class TvController
 				unset($this->source_files[$snippet]);
 			}
 
-		$this->default_display_page = current(array_keys($this->source_files));
 		foreach ( $this->display_modes as $mode )
 		{
 			if ( isset($_GET[$mode]) )
@@ -77,11 +72,6 @@ class TvController
 					$this->display_page = $_GET[$mode];
 					break;
 				}
-				else
-				{
-					$this->display_mode = $this->default_display_mode;
-					$this->display_page = $this->default_display_page;
-				}
 			}
 		}
 		
@@ -91,11 +81,6 @@ class TvController
 			$this->display_page = current(array_keys($this->source_files));
 		}
 		
-		if ( $this->source_files )
-		{
-			$this->source_file = $this->source_files[$this->display_page];
-			$this->page_title = $this->source_file->page_title;
-		}
 	}
 	
 	private function _get_source_files($lang)
@@ -134,6 +119,17 @@ class TvController
 			return $this->$getter();
 		if ( property_exists($this, $property) )
 			return $this->$property;
+	}
+	
+	public function get_page_title()
+	{
+		return $this->display_file ? $this->display_file->page_title : '';
+	}
+	
+	public function get_display_file()
+	{
+		if ( ! empty($this->source_files[$this->display_page]) )
+			return $this->source_files[$this->display_page];
 	}
 		
 	public static function is_lang($lang)

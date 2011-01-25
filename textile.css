@@ -3,6 +3,7 @@ body
 	font-family: "Lucida Sans Unicode", "Lucida Grande";
 	font-size: 10pt;
 	padding: 2em;
+	width: 65em;
 }
 
 h1 { font-size: 1.6em; }

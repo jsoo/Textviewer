@@ -17,7 +17,7 @@ if ( $tv->display_mode != 'web' )
 	$page_title .= ' (' . $tv->display_mode . ')';
 
 $translate_message = '';
-if ( $tv->source_file and $tv->source_file->is_untranslated() )
+if ( $tv->display_file and $tv->display_file->is_untranslated() )
 	$translate_message = $tv->translate->web;
 
 ?>
@@ -66,15 +66,15 @@ if ( count($tv->langs) > 1 ) : ?>
 </div>
 <?php echo $translate_message; ?>
 <div id="<?php echo $tv->display_mode; ?>">
-<?php if ( $tv->source_file ) : switch ( $tv->display_mode ) :
+<?php if ( $tv->display_file ) : switch ( $tv->display_mode ) :
 	case 'web':
-		echo $tv->source_file->web;
+		echo $tv->display_file->web;
 		break;
 	case 'html':
-		echo "<pre><code>\n", $tv->source_file->html, "</code></pre>\n";
+		echo "<pre><code>\n", $tv->display_file->html, "</code></pre>\n";
 		break;
 	case 'source':
-		echo "<pre>\n", htmlspecialchars($tv->source_file->source), "</pre>\n";
+		echo "<pre>\n", htmlspecialchars($tv->display_file->source), "</pre>\n";
 endswitch; endif; ?>
 <?php echo $tv->footer ? $tv->footer->web : ''; ?>
 </div>
