@@ -39,7 +39,18 @@ $config = array(
 		2: en-dash support ( em --- dash, en -- dash )
 		3: en-dash alternate ( em -- dash, en --- dash )
 	*/
-	'SmartyPants' => 2,
+	'SmartyPants' => 1,
+	
+	
+	/*
+	SmartyPants Typographer: Michel Fortin's extended SmartyPants.
+	Base options same as for SmartyPants, above.
+	If both are enabled, this one takes precedence.
+	
+	You can also enter a configuration string for more options;
+	see <http://michelf.com/projects/php-smartypants/typographer/>
+	*/
+	'SmartyPantsTypographer' => 0,
 
 );
 

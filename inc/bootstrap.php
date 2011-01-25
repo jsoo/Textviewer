@@ -31,6 +31,8 @@ else
 set_include_path(implode(PATH_SEPARATOR, $include_paths));
 
 unset($include_paths);
+unset($config['textviewer_root']);
+unset($config['include_dir']);
 
 $tv = new TvController($config);
 

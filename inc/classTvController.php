@@ -7,6 +7,7 @@ class TvController
 	protected $source_dir;
 	protected $snippets = array();
 	protected $SmartyPants;
+	protected $SmartyPantsTypographer;
 	
 	protected $langs = array();
 	protected $source_files = array();
@@ -18,10 +19,8 @@ class TvController
 	
 	public function __construct($config)
 	{
-		$this->default_lang = $config['default_lang'];
-		$this->source_dir = $config['source_dir'];
-		$this->snippets = $config['snippets'];
-		$this->SmartyPants = $config['SmartyPants'];
+		foreach ( $config as $k => $v )
+			$this->$k = $v;
 		
 		$this->script_filename = basename($_SERVER['SCRIPT_FILENAME']);
 		if ( $this->script_filename === 'index.php' )

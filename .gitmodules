@@ -7,3 +7,6 @@
 [submodule "inc/smartypants"]
 	path = inc/smartypants
 	url = https://github.com/michelf/php-smartypants.git
+[submodule "inc/smartypantstypographer"]
+	path = inc/smartypantstypographer
+	url = https://github.com/michelf/php-smartypants.git
