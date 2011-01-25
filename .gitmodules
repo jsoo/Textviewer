@@ -1,3 +1,6 @@
 [submodule "inc/textile"]
 	path = inc/textile
 	url = git://github.com/netcarver/textile.git
+[submodule "inc/markdown"]
+	path = inc/markdown
+	url = http://git.michelf.com/php-markdown
