@@ -14,19 +14,14 @@ function __autoload($class)
 	}
 }
 
+$config['source_dir'] = $config['textviewer_root'] . ( $config['source_dir'] ? 
+	DIRECTORY_SEPARATOR . $config['source_dir'] : '' );
+
 $include_paths = array(
 	get_include_path(),
-	$config['textviewer_root'],
 	$config['include_dir'],
 );
-
-if ( $config['source_dir'] )
-	$include_paths[] = $config['source_dir'] = $config['textviewer_root'] . DIRECTORY_SEPARATOR . $config['source_dir'];
-else
-	$config['source_dir'] = $config['textviewer_root'];
-
 set_include_path(implode(PATH_SEPARATOR, $include_paths));
-
 unset($include_paths);
 unset($config['textviewer_root']);
 unset($config['include_dir']);

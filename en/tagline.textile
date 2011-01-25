@@ -1,1 +1,0 @@
-p(#tagline). TextViewer: simple web text viewer 

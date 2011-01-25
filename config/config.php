@@ -10,13 +10,6 @@ $config = array(
 	'default_lang' => 'en',
 
 
-	/* 
-	Parent directory for source files, relative to textviewer root
-	i.e., where 'en' and other source file directories live
-	*/
-	'source_dir' => 'content',
-	
-	
 	/*
 	List any common page elements here -- header & footer, tagline, messages ...
 	TextViewer will scan each source directory for files with these names,
@@ -65,6 +58,11 @@ $config = array(
 /* 
 You won't need to change these unless you are moving files around
 */
+
+// Parent directory for source files, relative to textviewer root
+// i.e., where 'en' and other source file directories live
+$config['source_dir'] = 'content';
+
 $config['textviewer_root'] = dirname(dirname(__FILE__));
 $config['include_dir'] = $config['textviewer_root'] . DIRECTORY_SEPARATOR . 'inc';
 

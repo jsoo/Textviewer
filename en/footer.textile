@@ -1,1 +1,0 @@
-p(#footer). TextViewer (c) 2011 Jeff Soo
