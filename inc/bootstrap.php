@@ -2,6 +2,15 @@
 
 function __autoload($class)
 {
+	$include_path = get_include_path();
+	foreach ( explode(PATH_SEPARATOR, $include_path) as $path )
+	{
+		if ( is_dir($path . DIRECTORY_SEPARATOR . $class) )
+		{
+			set_include_path($include_path . PATH_SEPARATOR . $path . DIRECTORY_SEPARATOR . $class);
+			break;
+		}
+	}
 	switch ( $class )
 	{
 		default:
@@ -13,7 +22,6 @@ $include_paths = array(
 	get_include_path(),
 	$config['textviewer_root'],
 	$config['include_dir'],
-	$config['include_dir'] . DIRECTORY_SEPARATOR . $config['source_language'],
 );
 
 if ( $config['source_dir'] )

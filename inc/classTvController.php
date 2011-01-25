@@ -4,7 +4,6 @@ class TvController
 {
 	// from config
 	protected $default_lang;
-	protected $source_language;
 	protected $textviewer_root;
 	protected $source_dir;
 	protected $snippets = array();
@@ -25,13 +24,11 @@ class TvController
 	public function __construct($config)
 	{
 		$this->default_lang = $config['default_lang'];
-		$this->source_language = $config['source_language'];
 		$this->textviewer_root = $config['textviewer_root'];
 		$this->source_dir = $config['source_dir'];
 		$this->snippets = $config['snippets'];
 		
 		$this->default_display_mode = current($this->display_modes);
-		$this->parsers[$this->source_language] = new TvParser($this->source_language);
 		$this->script_filename = basename($_SERVER['SCRIPT_FILENAME']);
 		if ( $this->script_filename === 'index.php' )
 			$this->script_filename = '';
@@ -114,10 +111,27 @@ class TvController
 		if ( is_dir($dir) ) 
 		{
 			foreach ( scandir($dir) as $file )
-				if ( preg_match('/^(.+)\.' . $this->source_language . '$/', $file, $match) )
-					$files[end($match)] = new TvSourceFile(end($match), $lang . DIRECTORY_SEPARATOR . $file, $this->parsers[$this->source_language], $lang);
+			{
+				if ( preg_match('/^(.+)\.([a-z]+)$/', $file, $match) )
+				{
+					list(, $name, $extension) = $match;
+					if ( $this->_has_parser($extension) )
+					{
+						$files[$name] = new TvSourceFile($name, $lang . DIRECTORY_SEPARATOR . $file, $this->parsers[$extension], $lang);
+					}
+				}
+			}
 		}
 		return empty($files) ? array() : $files;
+	}
+	
+	private function _has_parser($type)
+	{
+		if ( ! isset($this->parsers[$type]) )
+		{
+			$this->parsers[$type] = new TvParser($type);
+		}
+		return $this->parsers[$type] instanceof TvParser;
 	}
 	
 	public function __get($property)

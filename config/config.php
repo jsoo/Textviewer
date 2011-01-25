@@ -2,14 +2,6 @@
 
 $config = array(
 
-	/*
-	The markup language for this TextViewer, e.g., 'textile'
-	The name must match the file extension for source files,
-	parser class name, file, and directory (e.g. inc/textile/classTextile.php)
-	*/
-	'source_language' => 'textile',
-
-
 	/* 
 	Default viewing language
 	Must match name of directory holding source files for this language
