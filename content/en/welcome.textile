@@ -31,3 +31,15 @@ The only TextViewer-specific part of the file is the Textile comment block at
 : Set the order of pages in the menu
 
 Otherwise TextViewer uses the file name for both the title and sort value.
+
+h2. Configuration Options
+
+TextViewer is designed to be ready to use, out of the box. But there are some
+ configuration options you can set if you choose, by editing @config/config.php@:
+
+; @default_lang@
+: The default user language for your TextViewer site.
+; @snippets@
+: Common page elements such as header and footer.
+; Various Markdown options
+: Choose Markdown and SmartyPants options.
