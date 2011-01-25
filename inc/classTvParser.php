@@ -4,8 +4,9 @@ class TvParser
 {
 	protected $lang;
 	protected $parser;
+	protected $TvController;
 	
-	public function __construct($lang)
+	public function __construct($lang, $TvController)
 	{
 		switch ( $lang )
 		{
@@ -16,8 +17,11 @@ class TvParser
 			case 'markdown':
 				$this->lang = $lang;
 				$this->parser = new Markdown_Parser;
+				if ( $TvController->SmartyPants )
+					include 'smartypants/smartypants.php';
 				break;
 		}
+		$this->TvController = $TvController;
 	}
 	
 	public function __get($property)
@@ -37,10 +41,11 @@ class TvParser
 		{
 			case 'textile':
 				return $this->parser->TextileThis($source);
-				break;
 			case 'markdown':
-				return $this->parser->transform($source);
-				break;
+				$out = $this->parser->transform($source);
+				if ( $this->TvController->SmartyPants )
+					return SmartyPants($out, $this->TvController->SmartyPants);
+				return $out;
 		}
 	}
 	

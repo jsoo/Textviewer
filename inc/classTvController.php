@@ -6,6 +6,7 @@ class TvController
 	protected $default_lang;
 	protected $source_dir;
 	protected $snippets = array();
+	protected $SmartyPants;
 	
 	protected $langs = array();
 	protected $source_files = array();
@@ -20,6 +21,7 @@ class TvController
 		$this->default_lang = $config['default_lang'];
 		$this->source_dir = $config['source_dir'];
 		$this->snippets = $config['snippets'];
+		$this->SmartyPants = $config['SmartyPants'];
 		
 		$this->script_filename = basename($_SERVER['SCRIPT_FILENAME']);
 		if ( $this->script_filename === 'index.php' )
@@ -105,7 +107,7 @@ class TvController
 	{
 		if ( ! isset($this->parsers[$type]) )
 		{
-			$this->parsers[$type] = new TvParser($type);
+			$this->parsers[$type] = new TvParser($type, $this);
 		}
 		return $this->parsers[$type] instanceof TvParser;
 	}

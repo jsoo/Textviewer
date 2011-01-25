@@ -30,6 +30,17 @@ $config = array(
  		'footer',		// page footer
 
 	),
+	
+	
+	/*
+	SmartyPants filter for Markdown files:
+		0: disabled
+		1: standard ( -- => em dash )
+		2: en-dash support ( em --- dash, en -- dash )
+		3: en-dash alternate ( em -- dash, en --- dash )
+	*/
+	'SmartyPants' => 2,
+
 );
 
 /* 
