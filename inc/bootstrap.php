@@ -2,24 +2,18 @@
 
 function __autoload($class)
 {
-	if ( $class === 'Markdown_Parser' )
-		$class = 'markdown';
-	$include_path = get_include_path();
-	foreach ( explode(PATH_SEPARATOR, $include_path) as $path )
-	{
-		if ( is_dir($path . DIRECTORY_SEPARATOR . $class) )
-		{
-			set_include_path($include_path . PATH_SEPARATOR . $path . DIRECTORY_SEPARATOR . $class);
-			break;
-		}
-	}
+	$prefix = 'class';
+	$dir = '';
+	$class = ucfirst($class);
 	switch ( $class )
 	{
-		case 'markdown':
-			include 'markdown.php';
-			break;
+		case 'Markdown_Parser':
+			$class = 'markdown';
+			$prefix = '';
+		case 'Textile':
+			$dir = strtolower($class) . DIRECTORY_SEPARATOR;
 		default:
-			include 'class' . ucfirst($class) . '.php';
+			include $dir . $prefix . $class . '.php';
 	}
 }
 
