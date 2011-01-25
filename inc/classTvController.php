@@ -4,7 +4,6 @@ class TvController
 {
 	// from config
 	protected $default_lang;
-	protected $textviewer_root;
 	protected $source_dir;
 	protected $snippets = array();
 	
@@ -19,7 +18,6 @@ class TvController
 	public function __construct($config)
 	{
 		$this->default_lang = $config['default_lang'];
-		$this->textviewer_root = $config['textviewer_root'];
 		$this->source_dir = $config['source_dir'];
 		$this->snippets = $config['snippets'];
 		
