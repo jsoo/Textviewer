@@ -7,9 +7,6 @@ function __autoload($class)
 	$class = ucfirst($class);
 	switch ( $class )
 	{
-		case 'Markdown_Parser':
-			$class = 'markdown';
-			$prefix = '';
 		case 'Textile':
 			$dir = strtolower($class) . DIRECTORY_SEPARATOR;
 		default:

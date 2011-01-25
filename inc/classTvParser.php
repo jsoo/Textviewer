@@ -16,8 +16,17 @@ class TvParser
 				$this->parser = new Textile;
 				break;
 			case 'markdown':
+				if ( $TvController->MarkdownExtra )
+				{
+					include 'markdownextra' . DIRECTORY_SEPARATOR . 'markdown.php';
+					$this->parser = new MarkdownExtra_Parser;
+				}
+				else
+				{
+					include 'markdown' . DIRECTORY_SEPARATOR . 'markdown.php';
+					$this->parser = new Markdown_Parser;
+				}
 				$this->lang = $lang;
-				$this->parser = new Markdown_Parser;
 				if ( $this->post_markdown_filter = $TvController->SmartyPantsTypographer )
 					include 'smartypantstypographer/smartypants.php';
 				elseif ( $this->post_markdown_filter = $TvController->SmartyPants )

@@ -8,6 +8,7 @@ class TvController
 	protected $snippets = array();
 	protected $SmartyPants;
 	protected $SmartyPantsTypographer;
+	protected $MarkdownExtra;
 	
 	protected $langs = array();
 	protected $source_files = array();

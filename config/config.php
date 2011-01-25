@@ -33,6 +33,14 @@ $config = array(
 	
 	
 	/*
+	Set this to 1 to use Markdown Extra syntax for Markdown files
+	(see <http://michelf.com/projects/php-markdown/extra/>)
+	Leave at 0 to use standard Markdown syntax
+	*/
+	'MarkdownExtra' => 1,
+	
+	
+	/*
 	SmartyPants filter for Markdown files:
 		0: disabled
 		1: standard ( -- => em dash )

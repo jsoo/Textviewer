@@ -10,3 +10,6 @@
 [submodule "inc/smartypantstypographer"]
 	path = inc/smartypantstypographer
 	url = https://github.com/michelf/php-smartypants.git
+[submodule "inc/markdownextra"]
+	path = inc/markdownextra
+	url = https://github.com/michelf/php-markdown.git
