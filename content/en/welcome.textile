@@ -1,0 +1,33 @@
+###. TextViewer header
+page_title => Welcome
+sort_order => 10
+
+h1. Welcome to TextViewer
+
+TextViewer is a simple web viewer for text files. To install it, upload it to a 
+ web server. To use it, write documents in "Textile":http://textileit.com/ or 
+ "Markdown":http://daringfireball.net/projects/markdown/ format, then drop them 
+ in TextViewer. That's it -- you now have a website.
+
+The template included with TextViewer gives your site a simple navigation menu, 
+ automatically updated when you add or remove a document. Modify the template
+ however you wish.
+ 
+If you translate one or more documents into another language, TextViewer 
+ automatically adds a language switcher. For documents you haven't translated 
+ yet, TextViewer will display the version in the default language.
+
+The source file for this page is an ordinary Textile 2.2 file. If you're viewing 
+ this in TextViewer, you can see what the source looks like by clicking the 
+ "source" link in the menu bar.
+
+The only TextViewer-specific part of the file is the Textile comment block at
+ the top. This is optional; it allows you to assign some metadata to the file. 
+ Currently TextViewer understands two items:
+ 
+; page_title
+: The basic template uses this in the window-bar title and in the menu
+; sort_order
+: Set the order of pages in the menu
+
+Otherwise TextViewer uses the file name for both the title and sort value.

@@ -14,7 +14,7 @@ $config = array(
 	Parent directory for source files, relative to textviewer root
 	i.e., where 'en' and other source file directories live
 	*/
-	'source_dir' => '',
+	'source_dir' => 'content',
 	
 	
 	/*

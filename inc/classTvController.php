@@ -95,7 +95,7 @@ class TvController
 					list(, $name, $extension) = $match;
 					if ( $this->_has_parser($extension) )
 					{
-						$files[$name] = new TvSourceFile($name, $lang . DIRECTORY_SEPARATOR . $file, $this->parsers[$extension], $lang);
+						$files[$name] = new TvSourceFile($name, $dir . DIRECTORY_SEPARATOR . $file, $this->parsers[$extension], $lang);
 					}
 				}
 			}
