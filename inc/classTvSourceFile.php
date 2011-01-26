@@ -40,6 +40,11 @@ class TvSourceFile
 			$this->sort_order = $this->name;
 	}
 	
+	public function __toString()
+	{
+		return $this->_get_html();
+	}
+	
 	public function __get($property)
 	{
 		$getter = 'get_' . $property;
@@ -103,7 +108,7 @@ class TvSourceFile
 		return $this;
 	}
 	
-	public function is_untranslated()
+	public function get_is_untranslated()
 	{
 		return $this->_untranslated;
 	}

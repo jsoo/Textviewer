@@ -17,7 +17,7 @@ $config = array(
 	*/
 	'snippets' => array(
 
-// 		'header',
+ 		'header',
 		'tagline',		// slogan to appear as a header
 		'translate',	// message to show on untranslated files
  		'footer',		// page footer

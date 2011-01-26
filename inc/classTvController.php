@@ -36,9 +36,9 @@ class TvController
 		$this->script_filename = basename($_SERVER['SCRIPT_FILENAME']);
 		if ( $this->script_filename === 'index.php' )
 			$this->script_filename = '';
-		
+
 		foreach ( scandir($this->source_dir) as $file )
-			if ( is_dir($file) && self::is_lang($file) )
+			if ( is_dir($this->source_dir . $file) && self::is_lang($file) )
 				$this->langs[] = $file;
 		if ( isset($_GET['lang']) && self::is_lang($_GET['lang']) )
 			$this->lang = $_GET['lang'];

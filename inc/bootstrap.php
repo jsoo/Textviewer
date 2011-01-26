@@ -14,8 +14,7 @@ function __autoload($class)
 	}
 }
 
-$config['source_dir'] = $config['textviewer_root'] . ( $config['source_dir'] ? 
-	DIRECTORY_SEPARATOR . $config['source_dir'] : '' );
+$config['source_dir'] = $config['textviewer_root'] . DIRECTORY_SEPARATOR . ( $config['source_dir'] ? $config['source_dir'] . DIRECTORY_SEPARATOR : '' );
 
 $include_paths = array(
 	get_include_path(),
