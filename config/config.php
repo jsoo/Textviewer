@@ -26,6 +26,13 @@ $config = array(
 	
 	
 	/*
+	Theme name
+	Themes must go in the root-level 'themes' directory
+	*/
+	'theme' => 'basic',
+	
+	
+	/*
 	Set this to 1 to use Markdown Extra syntax for Markdown files
 	(see <http://michelf.com/projects/php-markdown/extra/>)
 	Leave at 0 to use standard Markdown syntax

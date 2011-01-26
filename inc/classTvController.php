@@ -17,11 +17,21 @@ class TvController
 	protected $display_mode;
 	protected $parsers = array();
 	protected $script_filename;
+	protected $theme;
 	
 	public function __construct($config)
 	{
 		foreach ( $config as $k => $v )
-			$this->$k = $v;
+		{
+			switch ( $k )
+			{
+				case 'theme':
+					$this->theme = new TvTheme($v, $this);
+					break;
+				default:
+					$this->$k = $v;
+			}
+		}
 		
 		$this->script_filename = basename($_SERVER['SCRIPT_FILENAME']);
 		if ( $this->script_filename === 'index.php' )

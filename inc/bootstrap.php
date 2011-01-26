@@ -19,6 +19,7 @@ $config['source_dir'] = $config['textviewer_root'] . ( $config['source_dir'] ?
 
 $include_paths = array(
 	get_include_path(),
+	$config['textviewer_root'],
 	$config['include_dir'],
 );
 set_include_path(implode(PATH_SEPARATOR, $include_paths));
