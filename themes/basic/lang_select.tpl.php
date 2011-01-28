@@ -6,8 +6,10 @@ if ( count($tv->langs) > 1 ) :
 <select name="lang" onchange="select_lang.submit()">
 <?php
 	foreach ( $tv->langs as $lang ) :
-		$selected = $lang === $tv->lang ? ' selected="selected"' : '';
-		echo "<option{$selected}>{$lang}</option>\n";
+		$selected = $lang === $content->lang ? ' selected="selected"' : '';
+?>
+	<option<?php echo $selected; ?>><?php echo $lang; ?></option>
+<?php
 	endforeach;
 ?>
 </select>

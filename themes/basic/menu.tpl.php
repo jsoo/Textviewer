@@ -3,17 +3,25 @@
 <dl id="file-menu">
 <?php foreach ( $pages as $name => $page ) :
 		if ( $content->name === $name ) :
-			echo '<dt class="here">', $page->page_title, '</dt>';
+?>
+	<dt class="here"><?php echo $page->page_title; ?></dt>
+<?php
 			foreach ( $tv->display_modes as $mode ) :
-				if ( $mode === $tv->display_mode && $tv->display_page === $name ) :
-					echo '<dd class="here">', $mode, '</dd>';
+				if ( $mode === $tv->display_mode ) :
+?>
+	<dd class="here"><?php echo $mode ?></dd>
+<?php
 				else :
-					echo '<dd>', $tv->pagelink($name, $mode), '</dd>';
+?>
+	<dd><?php echo $tv->pagelink($name, $mode) ?></dd>
+<?php
 				endif;
 			endforeach;
 		else :
 			$class = $page->is_untranslated ? ' class="untranslated"' : '';
-			echo "<dt{$class}>", $tv->pagelink($name, 'web', $page->page_title), '</dt>';
+?>
+	<dt<?php echo $class; ?>><?php echo $tv->pagelink($name, 'web', $page->page_title); ?></dt>
+<?php
 		endif;
 	endforeach; ?>
 </dl>

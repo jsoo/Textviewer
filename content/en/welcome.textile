@@ -4,14 +4,14 @@ sort_order => 10
 
 h1. Welcome to TextViewer
 
-TextViewer is a simple web viewer for text files. To install it, upload it to a 
- web server. To use it, write documents in "Textile":http://textileit.com/ or 
+TextViewer generates a simple website from text files. To install, upload to a 
+ web server. To use, write documents in "Textile":http://textileit.com/ or 
  "Markdown":http://daringfireball.net/projects/markdown/ format, then drop them 
  in TextViewer. That's it -- you now have a website.
 
-The template included with TextViewer gives your site a simple navigation menu, 
- automatically updated when you add or remove a document. Modify the template
- however you wish.
+The "basic" template included with TextViewer gives your site a simple 
+ navigation menu, automatically updated when you add or remove a document. 
+ Modify the template however you wish, or copy as the basis for a new template.
  
 If you translate one or more documents into another language, TextViewer 
  automatically adds a language switcher. For documents you haven't translated 
@@ -39,6 +39,8 @@ TextViewer is designed to be ready to use, out of the box. But there are some
 
 ; @default_lang@
 : The default user language for your TextViewer site.
+; @theme@
+: Display theme
 ; @snippets@
 : Common page elements such as header and footer.
 ; Various Markdown options
