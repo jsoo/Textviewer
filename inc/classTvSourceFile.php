@@ -9,13 +9,15 @@ class TvSourceFile
 	private $_source;
 	private $_html;
 	private $_parser;
+	private $_TvController;
 	private $_lang;
 	private $_untranslated = false;
 	
-	public function __construct($name, $file_path, $parser, $lang)
+	public function __construct($name, $file_path, $parser, $lang, $TvController)
 	{
 		$this->_name = $name;
 		$this->_parser = $parser;
+		$this->_TvController = $TvController;
 		$this->_lang = $lang;
 		if ( file_exists($file_path) )
 		{
@@ -40,10 +42,7 @@ class TvSourceFile
 			$this->sort_order = $this->name;
 	}
 	
-	public function __toString()
-	{
-		return $this->_get_html();
-	}
+	public function __toString() { return $this->_get_html(); }
 	
 	public function __get($property)
 	{
@@ -52,34 +51,37 @@ class TvSourceFile
 			return $this->$getter();
 	}
 	
-	public function get_page_title()
+	public function get_page_title() { return $this->page_title; }
+	
+	public function get_sort_order() { return $this->sort_order; }
+	
+	public function get_name() { return $this->_name; }
+	
+	public function get_html() { return htmlspecialchars($this->_get_html()); }
+	
+	public function get_web() { return $this->_get_html(); }
+	
+	public function get_source() { return $this->_source; }
+	
+	public function get_is_untranslated() { return $this->_untranslated; }
+	
+	public function get_lang() { return $this->_lang; }
+	
+	public function get_anchor($mode = '', $text = '')
 	{
-		return $this->page_title;
+		return $this->_TvController->pagelink($this, $mode, $text);
 	}
 	
-	public function get_sort_order()
+	public function set_lang($lang)
 	{
-		return $this->sort_order;
+		$this->_lang = $lang;
+		return $this;
 	}
 	
-	public function get_name()
+	public function set_untranslated($bool)
 	{
-		return $this->_name;
-	}
-	
-	public function get_html()
-	{
-		return htmlspecialchars($this->_get_html());
-	}
-	
-	public function get_web()
-	{
-		return $this->_get_html();
-	}
-	
-	public function get_source()
-	{
-		return $this->_source;
+		$this->_untranslated = $bool;
+		return $this;
 	}
 	
 	private function _get_html()
@@ -91,33 +93,9 @@ class TvSourceFile
 		return $this->_html;
 	}
 	
-	public function set_lang($lang)
+	private function _parse()
 	{
-		$this->_lang = $lang;
-		return $this;
-	}
-	
-	public function get_lang()
-	{
-		return $this->_lang;
-	}
-	
-	public function set_untranslated($bool)
-	{
-		$this->_untranslated = $bool;
-		return $this;
-	}
-	
-	public function get_is_untranslated()
-	{
-		return $this->_untranslated;
-	}
-	
-	private function _parse($source = '')
-	{
-		if ( ! $source )
-			$source = $this->_source;
-		return $this->_parser->parse($source);
+		return $this->_parser->parse($this->_source);
 	}
 	
 }

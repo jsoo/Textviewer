@@ -9,10 +9,10 @@ class TvParser
 	
 	public function __construct($lang, $TvController)
 	{
+		$this->lang = $lang;
 		switch ( $lang )
 		{
 			case 'textile':
-				$this->lang = $lang;
 				$this->parser = new Textile;
 				break;
 			case 'markdown':
@@ -26,7 +26,6 @@ class TvParser
 					include 'markdown' . DIRECTORY_SEPARATOR . 'markdown.php';
 					$this->parser = new Markdown_Parser;
 				}
-				$this->lang = $lang;
 				if ( $this->post_markdown_filter = $TvController->SmartyPantsTypographer )
 					include 'smartypantstypographer/smartypants.php';
 				elseif ( $this->post_markdown_filter = $TvController->SmartyPants )

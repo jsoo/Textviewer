@@ -105,7 +105,7 @@ class TvController
 					list(, $name, $extension) = $match;
 					if ( $this->_has_parser($extension) )
 					{
-						$files[$name] = new TvSourceFile($name, $dir . DIRECTORY_SEPARATOR . $file, $this->parsers[$extension], $lang);
+						$files[$name] = new TvSourceFile($name, $dir . DIRECTORY_SEPARATOR . $file, $this->parsers[$extension], $lang, $this);
 					}
 				}
 			}
@@ -147,10 +147,22 @@ class TvController
 		return preg_match('/^[a-z]{2,2}(-[a-z]{2,2}|)$/', $lang);
 	}
 	
-	public function pagelink($file, $mode, $text = '')
+	public function pagelink($file, $mode = '', $text = '')
 	{
-		if ( ! $text ) $text = $mode;
-		$qs[] = $mode . '=' . $this->source_files[$file]->name;
+		if ( ! $mode ) $mode = 'web';
+		
+		if ( $file instanceof TvSourceFile )
+		{
+			if ( ! $text ) 
+				$text = $file->page_title ? $file->page_title : $file->name;
+		}
+		else
+		{
+			if ( ! $text ) $text = $mode;
+			$file = $this->source_files[$file];
+		}
+		
+		$qs[] = $mode . '=' . $file->name;
 		if ( $this->lang !== $this->default_lang )
 			$qs[] = 'lang=' . $this->lang;
 		$qs = '?' . implode('&amp;', $qs);
