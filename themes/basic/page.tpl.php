@@ -7,8 +7,8 @@
 </head>
 <body>
 <?php 
-echo $tagline;		// the 'tagline' snippet, rendered as HTML
-echo $theme->menu;	// i.e., render menu.tpl.php
+echo $tagline;				// the 'tagline' snippet (as HTML)
+echo $theme->menu;			// i.e., render menu.tpl.php
 if ( $content->is_untranslated ) echo $translate; 
 ?>
 <div id="<?php echo $tv->display_mode; ?>">
@@ -22,7 +22,7 @@ if ( $content->is_untranslated ) echo $translate;
 	case 'source':
 		echo "<pre>\n", htmlspecialchars($content->source), "</pre>\n";
 endswitch; endif; ?>
-<?php echo $footer; ?>
+<?php echo $footer;			// the 'footer' snippet ?>
 </div>
 </body>
 </html>

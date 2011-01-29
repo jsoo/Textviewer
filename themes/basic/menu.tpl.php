@@ -20,7 +20,7 @@
 		else :
 			$class = $page->is_untranslated ? ' class="untranslated"' : '';
 ?>
-	<dt<?php echo $class; ?>><?php echo $tv->pagelink($name, 'web', $page->page_title); ?></dt>
+	<dt<?php echo $class; ?>><?php echo $page->anchor; ?></dt>
 <?php
 		endif;
 	endforeach; ?>
