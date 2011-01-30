@@ -19,10 +19,10 @@ $config = array(
 // 	and separate them from the main source files
 
 	'snippets' => array(
- 		'header',
+		'header',
 		'tagline',		// slogan to appear as a header
 		'translate',	// message to show on untranslated files
- 		'footer',		// page footer
+		'footer',		// page footer
 	),
 	
 	
