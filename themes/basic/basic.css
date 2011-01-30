@@ -87,9 +87,10 @@ pre code
 
 .note, p#footer
 {
-	color: #777;
+	color: #999;
 	font-style: oblique;
-	font-size: 0.9em;
+	font-size: 0.8em;
+	margin-top: 3em;
 }
 div.notice
 {
