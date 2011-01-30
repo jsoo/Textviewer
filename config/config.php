@@ -60,4 +60,3 @@ $config['source_dir'] = 'content';
 
 $config['textviewer_root'] = dirname(dirname(__FILE__));
 $config['include_dir'] = $config['textviewer_root'] . DIRECTORY_SEPARATOR . 'inc';
-
